@@ -42,7 +42,7 @@ public class SpringBootApplicationIntegrationTest {
                 MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
         GenericEntity anObject = new GenericEntity();
-        anObject.setId(33);
+        anObject.setId(33L);
         anObject.setValue("4268321");
         //... more
         ObjectMapper mapper = new ObjectMapper();
@@ -52,10 +52,14 @@ public class SpringBootApplicationIntegrationTest {
 
         mockMvc.
                 perform(MockMvcRequestBuilders.post("/entity/").contentType(APPLICATION_JSON_UTF8)
-                        .content(requestJson)).
+                        .content(requestJson));
+        mockMvc.
+                perform(MockMvcRequestBuilders.post("/entity/").contentType(APPLICATION_JSON_UTF8)
+                        .content(requestJson));
+        mockMvc.
                 perform(MockMvcRequestBuilders.get("/entity/all")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().contentType(contentType)).
-                andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(4)));
+                andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
     }
 }
